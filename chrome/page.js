@@ -42170,6 +42170,7 @@ var getProjects = function getProjects(config) {
       var body = res.data.data;
       if (body && body.token) {
         createRequestByToken(body.token, config.onlineUrl).get('/project').then(function (res) {
+          res.data.token = body.token;
           resolve(res.data.data);
         });
       }
@@ -42784,7 +42785,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     var commit = _ref2.commit,
         state = _ref2.state;
 
-    console.log('here');
     var projects = await Object(_api_import_mock__WEBPACK_IMPORTED_MODULE_0__["getProjects"])(params);
     commit('SET_PROJECT_LIST', [].concat(_toConsumableArray(state.projectList), _toConsumableArray(projects)));
 

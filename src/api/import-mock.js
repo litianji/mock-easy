@@ -32,6 +32,7 @@ let getProjects = (config) => {
         const body = res.data.data
         if (body && body.token) {
           createRequestByToken(body.token, config.onlineUrl).get('/project').then(res => {
+            res.data.token = body.token
             resolve(res.data.data)
           })
         }

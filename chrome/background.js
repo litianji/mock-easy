@@ -246,7 +246,19 @@ function init() {
 
   // 保存项目数据
   function saveProject(projectList) {
-    chrome.storage.local.set({ 'projectList': projectList });
+    return new Promise(function (resolve, reject) {
+      chrome.storage.local.set({ 'projectList': projectList }, function () {
+        resolve();
+      });
+    });
+  }
+
+  function saveApiLists(apiLists) {
+    return new Promise(function (resolve, reject) {
+      chrome.storage.local.set(apiLists, function () {
+        resolve();
+      });
+    });
   }
 
   function getProject() {
@@ -257,8 +269,38 @@ function init() {
     });
   }
 
+  function getApiLists(id) {
+    return new Promise(function (resolve, reject) {
+      chrome.storage.local.get('getApiLists', function (data) {
+        if (data) {
+          resolve(id ? data.getApiLists[id] : data.getApiLists);
+        } else {
+          resolve({});
+        }
+      });
+    });
+  }
+
+  function delProject(id) {
+    getProject().then(function (data) {
+      if (!data) {
+        return;
+      }
+      if (id) {
+        delete data[id];
+      } else {
+        data = {};
+      }
+
+      saveProject(data);
+    });
+  }
+
   window.saveProject = saveProject;
+  window.saveApiList = saveApiLists;
   window.getProject = getProject;
+  window.getApiLists = getApiLists;
+  window.delProject = delProject;
   window.startWebserver = startWebserver;
   window.openWindow = openWindow;
 }
