@@ -16,12 +16,12 @@ http.interceptors.response.use((response) => {
   }
 
   // 对错误进行统一处理
-  if (response.data.code !== 0) {
+  if (response.data.code !== 200) {
     if (!response.config.noMsg && response.data.msg) {
       Message.error(response.data.msg)
     }
     return Promise.reject(response)
-  } else if (response.data.code === 0 && response.config.successNotify) {
+  } else if (response.data.code === 200 && response.config.successNotify) {
     // 弹出成功提示
     Message.success(response.data.msg || 'success !')
   }

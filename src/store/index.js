@@ -10,8 +10,12 @@ let state = {
   host: '',
   baseUrl: '',
   page: '',
+  // 所有的项目
   projectList: [],
-  projectId: ''
+  // 当前的打开的项目
+  projectId: '',
+  // 所有的api
+  apiLists: {}
 }
 
 export default new Vuex.Store({

@@ -10,6 +10,7 @@ let test = (params) => {
   })
 }
 
+// 获取api
 let getApiList = (params) => {
   return http({
     headers: {
@@ -17,8 +18,11 @@ let getApiList = (params) => {
     },
     method: 'get',
     baseURL: params.baseUrl,
-    url: '/mock',
-    params
+    url: '/api/mock',
+    params: {
+      project_id: params.id,
+      page_size: 1000
+    }
   })
 }
 

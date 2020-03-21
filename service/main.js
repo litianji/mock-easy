@@ -78,8 +78,9 @@ function init () {
   }
 
   function saveApiLists (apiLists) {
+    console.log(apiLists)
     return new Promise((resolve, reject) => {
-      chrome.storage.local.set(apiLists, function () {
+      chrome.storage.local.set({ apiLists }, function () {
         resolve()
       })
     })
@@ -95,9 +96,9 @@ function init () {
 
   function getApiLists (id) {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get('getApiLists', (data) => {
+      chrome.storage.local.get('apiLists', (data) => {
         if (data) {
-          resolve(id ? data.getApiLists[id] : data.getApiLists)
+          resolve(id ? data.apiLists[id] : data.apiLists)
         } else {
           resolve({})
         }
@@ -121,7 +122,7 @@ function init () {
   }
 
   window.saveProject = saveProject
-  window.saveApiList = saveApiLists
+  window.saveApiLists = saveApiLists
   window.getProject = getProject
   window.getApiLists = getApiLists
   window.delProject = delProject

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import { getApiList } from './index'
 
 let createRequestByToken = (token, domain) => {
   let instance = axios.create({
@@ -21,6 +22,7 @@ let createRequestByToken = (token, domain) => {
   return instance
 }
 
+// 获取所有项目
 let getProjects = (config) => {
   return new Promise((resolve, reject) => {
     createRequestByToken(null, config.onlineUrl)
@@ -29,11 +31,28 @@ let getProjects = (config) => {
         password: config.onlineUserPassword
       })
       .then(res => {
-        const body = res.data.data
+        let body = res.data.data
         if (body && body.token) {
           createRequestByToken(body.token, config.onlineUrl).get('/project').then(res => {
-            res.data.token = body.token
-            resolve(res.data.data)
+            let projects = res.data.data
+            Promise.all(
+              projects
+                .map(item => getApiList({
+                  id: item._id,
+                  token: body.token,
+                  baseUrl: config.onlineUrl
+                }))
+            )
+            .then(res => {
+              resolve({
+                projects,
+                apiLists: res.reduce((res, current) => {
+                  res[current.data.project._id] = current.data
+                  return res
+                }, {})
+              })
+            })
+            
           })
         }
       })

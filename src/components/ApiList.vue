@@ -56,8 +56,8 @@
       <el-table-column label="描述" prop="desc"></el-table-column>
       <el-table-column label="操作" align="center">
         <el-button-group slot-scope="btnScope">
-          <el-button  icon="el-icon-edit" @click="edit(btnScope.row.id)" size="small"></el-button>
-          <el-button  icon="el-icon-delete" @click="del(btnScope.row.id)" size="small"></el-button>
+          <el-button  icon="el-icon-edit" @click="edit(btnScope.row.url)" size="small"></el-button>
+          <el-button  icon="el-icon-delete" @click="del(btnScope.row.url)" size="small"></el-button>
         </el-button-group>
       </el-table-column>
     </el-table>
@@ -76,8 +76,8 @@ export default {
     // 测试数据
     for (let i = 0; i < 3; i++) {
       this.tableData.push({
-        method: 'get',
-        url: '/mock',
+        method: 'GET',
+        url: '/mockk',
         desc: '荷兰优质淡奶，奶香浓而不腻'
       })
     }

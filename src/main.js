@@ -92,8 +92,15 @@ chrome.runtime.getBackgroundPage((data) => {
       // router,
       render: h => h(App)
     })
+    // 页面初始化，读取项目
     data.getProject().then(data => {
+      console.log('项目有', data)
       store.commit('SET_PROJECT_LIST', data || [])
+    })
+    // 读取api
+    data.getApiLists().then(data => {
+      console.log('api', data)
+      store.commit('SET_API_LIST', data || {})
     })
   })
 })

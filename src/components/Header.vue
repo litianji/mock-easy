@@ -78,9 +78,9 @@ export default {
       dialogVisible: false,
       form: {
         type: [],
-        address: '',
-        userName: '',
-        password: ''
+        address: 'https://easy-mock.bookset.io',
+        userName: 'ltj111',
+        password: '2131410li'
       },
       formLabelWidth: '60'
     }
@@ -108,8 +108,11 @@ export default {
         onlineUserPassword: this.form.password
       }
       try {
-        let projects = await this.$store.dispatch('setProjectList', config)
+        let {projects, apiLists} = await this.$store.dispatch('setProjectList', config)
+        // 存储到后台chrome服务
         this.background.saveProject(projects)
+        this.background.saveApiLists(apiLists)
+        // 关闭弹窗
         this.dialogVisible = false
       } catch (error) {
         console.log(error)

@@ -6,5 +6,8 @@ export default {
   },
   SET_PROJECT_LIST (state, payload) {
     state.projectList = payload
+  },
+  SET_API_LIST (state, payload) {
+    state.apiLists = payload
   }
 }
