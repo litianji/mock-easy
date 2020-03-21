@@ -31,7 +31,7 @@
         </li>-->
       </ul>
     </div>
-    <el-table :data="tableData" :border="true" style="width: 100%">
+    <el-table :data="apiList" :border="true" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -42,22 +42,23 @@
               <span>{{ props.row.url }}</span>
             </el-form-item>
              <el-form-item label="描述">
-              <span>{{ props.row.desc }}</span>
+              <span>{{ props.row.description }}</span>
             </el-form-item>
           </el-form>
         </template>
       </el-table-column>
       <el-table-column label="Method" prop="method">
         <template slot-scope="scope">
-          <el-tag type="info">{{scope.row.method}}</el-tag>
+          <el-tag :type="tagColor(scope.row.method)"  effect="dark">{{scope.row.method}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="URL" prop="url"></el-table-column>
-      <el-table-column label="描述" prop="desc"></el-table-column>
+      <el-table-column label="描述" prop="description"></el-table-column>
       <el-table-column label="操作" align="center">
         <el-button-group slot-scope="btnScope">
-          <el-button  icon="el-icon-edit" @click="edit(btnScope.row.url)" size="small"></el-button>
-          <el-button  icon="el-icon-delete" @click="del(btnScope.row.url)" size="small"></el-button>
+          <el-button  icon="el-icon-edit" @click="edit(btnScope.row._id)" size="small"></el-button>
+          <el-button  icon="el-icon-delete" @click="del(btnScope.row._id)" size="small"></el-button>
+          <el-button  icon="el-icon-copy-document" @click="del(btnScope.row._id)" size="small"></el-button>
         </el-button-group>
       </el-table-column>
     </el-table>
@@ -97,7 +98,7 @@ export default {
     // 拿到了转成表格
     apiList () {
       let store = this.$store.state
-      return store.apiLists[store.projectId]
+      return store.apiLists[this.projectId].data.mocks
     }
   },
   methods: {
@@ -106,6 +107,13 @@ export default {
     },
     del (rowId) {
       console.log(rowId)
+    },
+    tagColor (method) {
+      if (method === 'get') {
+        return ''
+      } else {
+        return 'warning'
+      }
     }
   }
 }
