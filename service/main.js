@@ -107,17 +107,21 @@ function init () {
   }
 
   function delProject (id) {
-    getProject().then(data => {
-      if (!data) {
-        return
-      }
-      if (id) {
-        delete data[id]
-      } else {
-        data = {}
-      }
+    return new Promise((resolve, reject) => {
+      getProject().then(data => {
+        if (!data) {
+          return
+        }
+        if (id) {
+          delete data[id]
+        } else {
+          data = {}
+        }
 
-      saveProject(data)
+        saveProject(data).then(() => {
+          resolve()
+        })
+      })
     })
   }
 

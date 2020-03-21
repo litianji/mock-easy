@@ -9,5 +9,8 @@ export default {
   },
   SET_API_LIST (state, payload) {
     state.apiLists = payload
+  },
+  SET_PROJECT_ID (state, payload) {
+    state.projectId = payload
   }
 }

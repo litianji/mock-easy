@@ -10,5 +10,8 @@ export default {
     commit('SET_PROJECT_LIST', [...state.projectList, ...projects])
     commit('SET_API_LIST', Object.assign(state.apiLists, apiLists))
     return {projects, apiLists}
+  },
+  setProjectId ({ commit }, id) {
+    commit('SET_PROJECT_ID', id)
   }
 }

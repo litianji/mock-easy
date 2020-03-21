@@ -96,7 +96,8 @@ export default {
       }
     },
     showProject () {
-      this.showApiId = false
+      // 清空id
+      this.$store.dispatch('setProjectId', '')
     },
     importData () {
       this.dialogVisible = true

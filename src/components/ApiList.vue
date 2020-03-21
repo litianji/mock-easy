@@ -88,11 +88,21 @@ export default {
     },
     port () {
       return this.$store.state.port
+    },
+    projectId () {
+      return this.$store.state.projectId
+    },
+    // 获取api列表
+    // 外面只需要改变id，里面的列表就变了，apiList是map
+    // 拿到了转成表格
+    apiList () {
+      let store = this.$store.state
+      return store.apiLists[store.projectId]
     }
   },
   methods: {
     edit (rowId) {
-      console.log(rowId)
+      console.log(this.apiList)
     },
     del (rowId) {
       console.log(rowId)
