@@ -1,0 +1,128 @@
+<template>
+  <el-header class="em-header" :class="{'em-header--fixed': fixed}" ref="header">
+    <el-row>
+      <div class="em-header__nav">
+        <div class="em-header__content" style="padding: 0">
+          <el-menu mode="horizontal" background-color="#495060" text-color="#c9cbd0">
+            <div class="em-logo">
+              <img :src="logo" alt="">
+            </div>
+            <el-menu-item index="1" @click="showProject">我的项目</el-menu-item>
+          </el-menu>
+        </div>
+
+      </div>
+    </el-row>
+    <div class="em-header__content">
+      <el-row>
+        <el-col :span="18">
+          <el-avatar shape="square" icon="el-icon-user-solid" :size="50"></el-avatar>
+          <div class="em-header__info">
+            <h2>所有项目</h2>
+            <p>subTitle</p>
+          </div>
+        </el-col>
+        <el-col :span="6" style="padding-right: 18px;text-align: right;margin-top: 5px">
+          <el-row>
+            <!-- <el-button icon="el-icon-search" circle></el-button> -->
+            <el-button type="primary" icon="el-icon-plus" circle></el-button>
+            <el-button type="success" icon="el-icon-bottom" circle @click="importData"></el-button>
+          </el-row>
+        </el-col>
+      </el-row>
+    </div>
+
+    <el-dialog
+      title="导入数据"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="400px">
+      <el-form :model="form" label-position="top"  size="small">
+        <el-form-item  prop="pass">
+          <el-input type="text" v-model="form.address" autocomplete="off" placeholder="eazy-mock地址"></el-input>
+        </el-form-item>
+        <el-form-item  prop="pass">
+          <el-input type="text" v-model="form.userName" autocomplete="off" placeholder="账号"></el-input>
+        </el-form-item>
+        <el-form-item  prop="checkPass">
+          <el-input type="password" v-model="form.password" autocomplete="off" placeholder="密码"></el-input>
+        </el-form-item>
+        <el-form-item prop="type">
+          <el-checkbox-group v-model="form.type">
+            <el-checkbox label="团队项目" name="type"></el-checkbox>
+            <el-checkbox label="个人项目" name="type"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submit" style="width: 100%">立即导入</el-button>
+        </el-form-item>
+      </el-form>
+      <!-- <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span> -->
+    </el-dialog>
+  </el-header>
+</template>
+
+<script>
+import { on, off } from 'element-ui/src/utils/dom'
+import logo from '../assets/easy-mock.png'
+export default {
+  name: 'EmHeader',
+  data () {
+    return {
+      fixed: false,
+      logo,
+      showApiId: false,
+      dialogVisible: false,
+      form: {
+        type: [],
+        address: '',
+        userName: '',
+        password: ''
+      },
+      formLabelWidth: '60'
+    }
+  },
+  methods: {
+    scroll (e) {
+      if (e.target.scrollTop > 0) {
+        this.fixed = true
+        this.$refs.header.$el.style.width = e.target.offsetWidth - 17 + 'px'
+      } else {
+        this.fixed = false
+        this.$refs.header.$el.style.width = '100%'
+      }
+    },
+    showProject () {
+      this.showApiId = false
+    },
+    importData () {
+      this.dialogVisible = true
+    },
+    async submit () {
+      let config = {
+        onlineUrl: this.form.address,
+        onlineUserName: this.form.userName,
+        onlineUserPassword: this.form.password
+      }
+      try {
+        let projects = await this.$store.dispatch('setProjectList', config)
+        this.background.saveProject(projects)
+        this.dialogVisible = false
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  mounted () {
+    this.$refs.header.$el.style.height = 'auto'
+    on(document.body, 'scroll', this.scroll)
+  },
+  beforeDestroy () {
+    off(document.body, 'scroll', this.scroll)
+  }
+
+}
+</script>
