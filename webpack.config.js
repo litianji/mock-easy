@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './chrome')
+    path: path.resolve(__dirname, './chrome/js')
   },
   devtool: 'none',
   resolve: {
