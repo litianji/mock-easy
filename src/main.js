@@ -24,7 +24,8 @@ import {
   Dialog,
   Option,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Tag
 } from 'element-ui'
 import store from './store'
 // import router from './router'
@@ -56,6 +57,7 @@ Vue.component(Option.name, Option)
 Vue.component(Col.name, Col)
 Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
+Vue.component(Tag.name, Tag)
 
 // 监听服务端口变化
 chrome.storage.local.onChanged.addListener((changes, namespace) => {
@@ -91,8 +93,7 @@ chrome.runtime.getBackgroundPage((data) => {
       render: h => h(App)
     })
     data.getProject().then(data => {
-      console.log(data)
-      store.commit('SET_PROJECT_LIST', data)
+      store.commit('SET_PROJECT_LIST', data || [])
     })
   })
 })

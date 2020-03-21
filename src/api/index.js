@@ -10,6 +10,19 @@ let test = (params) => {
   })
 }
 
+let getApiList = (params) => {
+  return http({
+    headers: {
+      Authorization: `Bearer ${params.token}`
+    },
+    method: 'get',
+    baseURL: params.baseUrl,
+    url: '/mock',
+    params
+  })
+}
+
 export {
-  test
+  test,
+  getApiList
 }

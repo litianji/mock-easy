@@ -4,7 +4,9 @@
       <el-row>
         <div class="em-card__item">
           {{baseUrl}}
-          <el-link type="primary" class="em-api-list__copy"><i class="el-icon-copy-document"></i>复制</el-link>
+          <el-link type="primary" class="em-api-list__copy">
+            <i class="el-icon-copy-document"></i>复制
+          </el-link>
         </div>
       </el-row>
     </div>
@@ -14,7 +16,7 @@
         <!-- <li>
           <i class="el-icon-plus"></i>
           创建接口
-        </li> -->
+        </li>-->
         <li>
           <i class="el-icon-download"></i>
           更新接口
@@ -26,51 +28,37 @@
         <!-- <li>
           <i class="el-icon-notebook-1"></i>
           历史记录
-        </li> -->
+        </li>-->
       </ul>
     </div>
-    <el-table
-      :data="tableData"
-      :border="true"
-      style="width: 100%">
+    <el-table :data="tableData" :border="true" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="商品名称">
-              <span>{{ props.row.name }}</span>
+            <el-form-item label="Mothod">
+              <span>{{ props.row.method }}</span>
             </el-form-item>
-            <el-form-item label="所属店铺">
-              <span>{{ props.row.shop }}</span>
+             <el-form-item label="URL">
+              <span>{{ props.row.url }}</span>
             </el-form-item>
-            <el-form-item label="商品 ID">
-              <span>{{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item label="店铺 ID">
-              <span>{{ props.row.shopId }}</span>
-            </el-form-item>
-            <el-form-item label="商品分类">
-              <span>{{ props.row.category }}</span>
-            </el-form-item>
-            <el-form-item label="店铺地址">
-              <span>{{ props.row.address }}</span>
-            </el-form-item>
-            <el-form-item label="商品描述">
+             <el-form-item label="描述">
               <span>{{ props.row.desc }}</span>
             </el-form-item>
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column
-        label="商品 ID"
-        prop="id">
+      <el-table-column label="Method" prop="method">
+        <template slot-scope="scope">
+          <el-tag type="info">{{scope.row.method}}</el-tag>
+        </template>
       </el-table-column>
-      <el-table-column
-        label="商品名称"
-        prop="name">
-      </el-table-column>
-      <el-table-column
-        label="描述"
-        prop="desc">
+      <el-table-column label="URL" prop="url"></el-table-column>
+      <el-table-column label="描述" prop="desc"></el-table-column>
+      <el-table-column label="操作" align="center">
+        <el-button-group slot-scope="btnScope">
+          <el-button  icon="el-icon-edit" @click="edit(btnScope.row.id)" size="small"></el-button>
+          <el-button  icon="el-icon-delete" @click="del(btnScope.row.id)" size="small"></el-button>
+        </el-button-group>
       </el-table-column>
     </el-table>
   </div>
@@ -81,39 +69,17 @@ export default {
   name: 'EmApiList',
   data () {
     return {
-      tableData: [{
-        id: '12987122',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987123',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987125',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987126',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }]
+      tableData: []
+    }
+  },
+  created () {
+    // 测试数据
+    for (let i = 0; i < 3; i++) {
+      this.tableData.push({
+        method: 'get',
+        url: '/mock',
+        desc: '荷兰优质淡奶，奶香浓而不腻'
+      })
     }
   },
   computed: {
@@ -123,21 +89,29 @@ export default {
     port () {
       return this.$store.state.port
     }
+  },
+  methods: {
+    edit (rowId) {
+      console.log(rowId)
+    },
+    del (rowId) {
+      console.log(rowId)
+    }
   }
 }
 </script>
 
 <style>
- .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
 </style>
