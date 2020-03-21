@@ -15,7 +15,7 @@
   },
   "app": {
     "background": {
-      "scripts": ["wsc-chrome.js", "background.js"],
+      "scripts": ["wsc-chrome.js", "js/background.js"],
       "persistent": false
     }
   },
