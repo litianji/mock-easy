@@ -25,7 +25,9 @@ import {
   Option,
   Checkbox,
   CheckboxGroup,
-  Tag
+  Tag,
+  MessageBox,
+  Message
 } from 'element-ui'
 import store from './store'
 // import router from './router'
@@ -59,6 +61,8 @@ Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(Tag.name, Tag)
 
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
 // 监听服务端口变化
 chrome.storage.local.onChanged.addListener((changes, namespace) => {
   if (changes.port) {

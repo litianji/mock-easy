@@ -1,8 +1,8 @@
 <template>
-  <el-header class="em-header" :class="{'em-header--fixed': fixed}" ref="header">
+  <el-header class="em-header" ref="header">
     <el-row>
       <div class="em-header__nav">
-        <div class="em-header__content" style="padding: 0">
+        <div class="em-header__content-nav">
           <el-menu mode="horizontal" background-color="#495060" text-color="#c9cbd0">
             <div class="em-logo">
               <img :src="logo" alt="">
@@ -13,23 +13,38 @@
 
       </div>
     </el-row>
-    <div class="em-header__content">
-      <el-row>
-        <el-col :span="18">
-          <el-avatar shape="square" icon="el-icon-user-solid" :size="50"></el-avatar>
-          <div class="em-header__info">
-            <h2>所有项目</h2>
-            <p>subTitle</p>
-          </div>
-        </el-col>
-        <el-col :span="6" style="padding-right: 18px;text-align: right;margin-top: 5px">
-          <el-row>
-            <!-- <el-button icon="el-icon-search" circle></el-button> -->
-            <el-button type="primary" icon="el-icon-plus" circle></el-button>
-            <el-button type="success" icon="el-icon-bottom" circle @click="importData"></el-button>
+    <div style="height: 90px; width: 100%" ref="content">
+      <div class="em-header__wrap" :class="{'em-header--fixed': fixed}" ref="fixed">
+        <div class="em-header__content">
+          <el-row  v-if="!projectId">
+            <el-col :span="18">
+              <el-avatar shape="square" icon="el-icon-user-solid" :size="50"></el-avatar>
+              <div class="em-header__info">
+                <h2>所有项目</h2>
+                <p>subTitle</p>
+              </div>
+            </el-col>
+            <el-col :span="6" style="padding-right: 18px; text-align: right;margin-top: 5px">
+              <el-row>
+                <!-- <el-button icon="el-icon-search" circle></el-button> -->
+                <el-button type="primary" icon="el-icon-plus" circle></el-button>
+                <el-button type="success" icon="el-icon-bottom" circle @click="importData"></el-button>
+              </el-row>
+            </el-col>
           </el-row>
-        </el-col>
-      </el-row>
+
+          <el-row  v-if="projectId">
+            <el-col :span="18">
+              <el-avatar shape="square" icon="el-icon-tickets" :size="50"></el-avatar>
+              <div class="em-header__info">
+                <h2>{{projectName}}</h2>
+                <p>个人项目</p>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+
     </div>
 
     <el-dialog
@@ -87,12 +102,13 @@ export default {
   },
   methods: {
     scroll (e) {
-      if (e.target.scrollTop > 0) {
+      let { top } = this.$refs.content.getBoundingClientRect()
+      if (e.target.scrollTop > 0 && top <= 0) {
         this.fixed = true
-        this.$refs.header.$el.style.width = e.target.offsetWidth - 17 + 'px'
+        this.$refs.fixed.style.width = e.target.offsetWidth - 17 + 'px'
       } else {
         this.fixed = false
-        this.$refs.header.$el.style.width = '100%'
+        this.$refs.fixed.style.width = '100%'
       }
     },
     showProject () {
@@ -118,6 +134,14 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    }
+  },
+  computed: {
+    projectId () {
+      return this.$store.state.projectId
+    },
+    projectName () {
+      return this.$store.state.apiLists[this.projectId].project.name
     }
   },
   mounted () {

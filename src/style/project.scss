@@ -13,59 +13,74 @@
 }
 
 @include b(header) {
-  background: #fff;
   padding: 0;
+  @include e(nav) {
+    height: 60px;
+    overflow: hidden;
+    background: #495060;
+
+    .is-active {
+      border-bottom: none!important;
+      color: #c9cbd0!important;
+    }
+
+    @include e(content-nav) {
+      width: 1000px;
+      margin: 0 auto;
+    }
+  }
+
+  @include e(wrap) {
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+
+    @include e(content) {
+      background: #fff;
+      width: 1000px;
+      margin: 0 auto;
+      padding: 20px 0;
+      transition: all .3s;
+  
+      .el-avatar {
+        float: left;
+        font-size: 20px;
+      }
+  
+      @include e(info) {
+        display: inline-block;
+        padding-left:20px;
+        
+        h2 {
+          padding: 0 10px 5px 0px;
+          margin: 0;
+        }
+  
+        p {
+          margin: 0px;
+          font-size: 12px;
+          color: #9a9ca0;
+          font-weight: 400;
+        }
+      }
+  
+    }
+  }
+  
   @include m(fixed) {
+    background: #fff;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 20;
-    box-shadow: 0 1px 2px rgba(0,0,0,.1);
-
-    .em-header__nav {
-      height: 0;
-      background: #495060;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    .em-header__content {
+      padding: 10px 0;
+      padding-top: 0px;
     }
   }
-  @include e(content) {
-    width: 1000px;
-    margin: 0 auto;
-    padding: 10px 0;
 
-    @include e(nav) {
-      transition: all .2s;
-      height: 60px;
-      overflow: hidden;
-      background: #495060;
-
-      .is-active {
-        border-bottom: none!important;
-        color: #c9cbd0!important;
-      }
-    }
-
-    .el-avatar {
-      float: left;
-      font-size: 20px;
-    }
-
-    @include e(info) {
-      display: inline-block;
-      padding-left:20px;
-      
-      h2 {
-        padding: 0 10px 5px 0px;
-        margin: 0;
-      }
-
-      p {
-        margin: 0px;
-        font-size: 12px;
-        color: #9a9ca0;
-        font-weight: 400;
-      }
-    }
-
+  .el-avatar {
+    background: #2d8cf0;
   }
 }
 

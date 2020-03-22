@@ -7,6 +7,7 @@ export default {
   // 存储到store中
   async setProjectList ({ commit, state }, params) {
     let {projects, apiLists} = await getProjects(params)
+
     commit('SET_PROJECT_LIST', [...state.projectList, ...projects])
     commit('SET_API_LIST', Object.assign(state.apiLists, apiLists))
     return {projects, apiLists}

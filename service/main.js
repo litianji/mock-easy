@@ -72,16 +72,19 @@ function init () {
   function saveProject (projectList) {
     return new Promise((resolve, reject) => {
       chrome.storage.local.set({'projectList': projectList}, function () {
-        resolve()
+        getProject().then(data => {
+          resolve(data)
+        })
       })
     })
   }
 
   function saveApiLists (apiLists) {
-    console.log(apiLists)
     return new Promise((resolve, reject) => {
       chrome.storage.local.set({ apiLists }, function () {
-        resolve()
+        getApiLists().then(data => {
+          resolve(data)
+        })
       })
     })
   }
@@ -108,18 +111,39 @@ function init () {
 
   function delProject (id) {
     return new Promise((resolve, reject) => {
+      // 删除项目
       getProject().then(data => {
+        if (!data || !data.length) {
+          return
+        }
+        if (id) {
+          data = data.filter(item => item._id !== id)
+        } else {
+          data = []
+        }
+        saveProject(data).then(left => {
+          resolve(left)
+          delApiList(id)
+        })
+      })
+    })
+  }
+
+  function delApiList (id) {
+    return new Promise((resolve, reject) => {
+      getApiLists().then(data => {
         if (!data) {
           return
         }
+
         if (id) {
           delete data[id]
         } else {
           data = {}
         }
 
-        saveProject(data).then(() => {
-          resolve()
+        saveApiLists(data).then(left => {
+          resolve(left)
         })
       })
     })

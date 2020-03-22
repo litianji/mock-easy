@@ -41,7 +41,23 @@ function testHandle (ctx) {
   }
 }
 
+class Mock extends WSC.BaseHandler {
+  get () {
+    console.log(this)
+
+    this.setHeader('content-type', 'text/json')
+    var buf = new TextEncoder('utf-8').encode(JSON.stringify({code: 405, msg: 'bad request'})).buffer
+    this.write(buf)
+    this.finish()
+  }
+
+  post () {
+
+  }
+}
+
 let handles = [
-  Router.post('/test', testHandle)
+  Router.post('/test', testHandle),
+  ['/mock', Mock]
 ]
 export default handles

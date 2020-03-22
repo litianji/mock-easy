@@ -16,7 +16,7 @@
                 <div class="em-card__item">{{item.description}}</div>
                 <div class="em-card__item">{{item.url}}</div>
                 <div class="em-card__item">本地</div>
-                <div class="em-card__actions" @click="e => e.stopPropagation && e.stopPropagation">
+                <div class="em-card__actions" @click="e => e.stopPropagation && e.stopPropagation()">
                   <el-button-group>
                     <el-button icon="el-icon-copy-document" size="small"></el-button>
                     <el-button icon="el-icon-share" size="small"></el-button>
@@ -51,18 +51,23 @@ export default {
     }
   },
   methods: {
-    // 点击项目卡片
     cardClick (id) {
-      console.log('click me id is', id)
-      // store 中储存id
       this.$store.dispatch('setProjectId', id)
     },
     delProject (id) {
-      // 从后台删除， 是异步的
-      this.background.delProject(id).then(res => {
-        // 更新下store
-        this.background.getProject().then(data => {
-          this.$store.commit('SET_PROJECT_LIST', data || [])
+      this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.background.delProject(id).then(res => {
+          this.background.getProject().then(data => {
+            this.$store.commit('SET_PROJECT_LIST', data || [])
+          })
+          this.$message({
+            type: 'info',
+            message: '删除成功!'
+          })
         })
       })
     }
@@ -71,7 +76,6 @@ export default {
     projectList () {
       return this.$store.state.projectList
     },
-    // 获取id
     projectId () {
       return this.$store.state.projectId
     }
