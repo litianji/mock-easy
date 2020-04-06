@@ -38,6 +38,10 @@ module.exports = {
         loader: 'url-loader'
       },
       {
+        test: /\.snippets/,
+        loader: 'raw-loader'
+      },
+      {
         test: /\.css$/,
         use: process.env.NODE_ENV === 'production'
           ? ExtractTextPlugin.extract({

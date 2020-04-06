@@ -1,0 +1,62 @@
+@import '../../style/mixins/mixins.scss';
+@import '../../style/var.scss';
+
+@include b(editor) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: #fff;
+
+  @include e(editor) {
+    flex: 1;
+    &>div {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @include e(info) {
+    width: 350px;
+    text-align: center;
+    background: #2d8cf0;
+    box-shadow: 0 0 3px #000;
+    
+    @include utils-vertical-center;
+    
+    
+    @include e(wrap) {
+      text-align: left;
+      width: 310px;
+      display: inline-block;
+      vertical-align: middle;
+
+      h2 {
+        color: #fff;
+        font-size: 13px;
+        text-align: center;
+        padding: 6px;
+        background: rgba(0, 0, 0, .5);
+        border-radius: 30px;
+        margin-bottom: 20px;
+      }
+
+      @include e(form) {
+        background: #fff;
+        box-shadow: 0 2px 3px #777;
+        border-radius: 4px;
+        padding: 20px 20px 1px 20px;
+        margin-bottom: 20px;
+      }
+      
+      .me-api-list__actions {
+        box-shadow: 0 2px 3px #111;
+        ul li {
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+}

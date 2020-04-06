@@ -27,14 +27,19 @@ import {
   CheckboxGroup,
   Tag,
   MessageBox,
-  Message
+  Message,
+  Switch,
+  Divider,
+  Radio,
+  RadioGroup,
+  RadioButton
 } from 'element-ui'
 import store from './store'
 // import router from './router'
 import App from './App.vue'
 import './style/index.scss'
 
-const {chrome} = window
+// const {chrome} = window
 
 Vue.component(Button.name, Button)
 Vue.component(Select.name, Select)
@@ -59,52 +64,33 @@ Vue.component(Option.name, Option)
 Vue.component(Col.name, Col)
 Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
+Vue.component(Switch.name, Switch)
 Vue.component(Tag.name, Tag)
+Vue.component(Divider.name, Divider)
+Vue.component(Radio.name, Radio)
+Vue.component(RadioGroup.name, RadioGroup)
+Vue.component(RadioButton.name, RadioButton)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
-// 监听服务端口变化
-chrome.storage.local.onChanged.addListener((changes, namespace) => {
-  if (changes.port) {
-    store.dispatch('setConfig', {
-      port: changes.port.newValue
-    })
-  }
+
+new Vue({
+  el: '#app',
+  store,
+  // router,
+  render: h => h(App)
 })
 
 // 启动服务
-chrome.runtime.getBackgroundPage((data) => {
-  data.startWebserver().then(res => {
-    store.dispatch('setConfig', res)
-    Vue.mixin({
-      methods: {
-        changePort (port) {
-          chrome.storage.local.set({port}, () => {})
-          this.background.startWebserver()
-        }
-      },
-      computed: {
-        background () {
-          return data
-        }
-      }
-    })
+store.dispatch('server/startServer')
+// 获取mock api
+store.dispatch('project/getProjectList')
 
-    new Vue({
-      el: '#app',
-      store,
-      // router,
-      render: h => h(App)
-    })
-    // 页面初始化，读取项目
-    data.getProject().then(data => {
-      console.log('项目有', data)
-      store.commit('SET_PROJECT_LIST', data || [])
-    })
-    // 读取api
-    data.getApiLists().then(data => {
-      console.log('api', data)
-      store.commit('SET_API_LIST', data || {})
-    })
-  })
-})
+// 监听服务端口变化
+// chrome.storage.local.onChanged.addListener((changes, namespace) => {
+//   if (changes.port) {
+//     store.dispatch('setConfig', {
+//       port: changes.port.newValue
+//     })
+//   }
+// })

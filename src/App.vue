@@ -1,18 +1,28 @@
 <template>
-  <el-container class="em-app">
-    <em-project></em-project>
+  <el-container class="me-app">
+    <el-header style="padding: 0; height: auto">
+      <me-header></me-header>
+    </el-header>
+    <el-main>
+      <div class="me-body">
+        <me-router :routes="routes"/>
+      </div>
+    </el-main>
   </el-container>
 </template>
 
 <script>
-import EmProject from './components/Projects'
+import MeRouter from './components/router/index'
+import MeHeader from './components/header/index'
+import routes from './routes'
 export default {
   name: 'App',
-  components: {EmProject},
+  components: {MeRouter, MeHeader},
   data () {
     return {
       msg: '',
-      currentPort: ''
+      currentPort: '',
+      routes
     }
   }
 }
@@ -26,8 +36,5 @@ body {
   overflow: auto;
   overflow-x: hidden;
   background: #f8f9fa;
-}
-.em-app {
-  height: 100%;
 }
 </style>

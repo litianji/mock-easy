@@ -42,17 +42,77 @@ function testHandle (ctx) {
 }
 
 class Mock extends WSC.BaseHandler {
-  get () {
-    console.log(this)
-
-    this.setHeader('content-type', 'text/json')
-    var buf = new TextEncoder('utf-8').encode(JSON.stringify({code: 405, msg: 'bad request'})).buffer
-    this.write(buf)
+  async get () {
+    let method = this.request.method
+    let { projectId, url } = this.parseUrl(this.request.uri)
+    let { code, mode } = await this.findApiData(method, projectId, url)
+    this.setHeader('content-type', 'application/json')
+    let buf = new TextEncoder('utf-8').encode(mode).buffer
+    this.write(buf, code)
     this.finish()
   }
 
-  post () {
+  async post () {
+    let method = this.request.method
+    let { projectId, url } = this.parseUrl(this.request.uri)
+    let { code, mode } = await this.findApiData(method, projectId, url)
+    this.setHeader('content-type', 'application/json')
+    let buf = new TextEncoder('utf-8').encode(mode).buffer
+    this.write(buf, code)
+    this.finish()
+  }
 
+  put () {
+
+  }
+
+  parseUrl (uri) {
+    let allPath = (uri + '/').replace('/mock/', '')
+    let [projectId, ...url] = allPath.split('/')
+    return {
+      projectId,
+      url: '/' + url.filter(item => item).join('/')
+    }
+  }
+
+  async findApiData (method, id, url) {
+    let res = await window.getApiLists(id)
+
+    if (!res) {
+      return {
+        code: 404
+      }
+    }
+
+    let { mocks, project } = res
+    let contextUrl = project.url
+
+    console.log(url, this.concatUrl(contextUrl, mocks[0].url))
+    let mockData = mocks.find(item => (this.concatUrl(contextUrl, item.url) === url))
+
+    if (!mockData) {
+      return {
+        code: 404
+      }
+    }
+
+    if (mockData.method.toLocaleUpperCase() !== method.toLocaleUpperCase()) {
+      return {
+        code: 405
+      }
+    }
+
+    return {
+      code: 200,
+      mode: mockData.mode
+    }
+  }
+
+  concatUrl (url1, url2) {
+    let url1a = (url1 + '').split('/')
+    let url2a = (url2 + '').split('/')
+
+    return '/' + [...url1a, ...url2a].filter(item => item).join('/')
   }
 }
 

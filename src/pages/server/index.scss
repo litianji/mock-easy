@@ -1,0 +1,20 @@
+@import '../../style/mixins/mixins.scss';
+@import '../../style/var.scss';
+
+@include b(server) {
+  background: #fff;
+  box-shadow: 0 2px 3px #eee;
+  border: 1px solid #eee;
+  border-radius: 4px;
+
+  @include e(content) {
+    width: 450px;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+
+  @include e(btn) {
+    width: 100%;
+  }
+}

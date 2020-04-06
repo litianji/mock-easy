@@ -1,1 +1,1 @@
-# mock-eazy
+# mock-easy

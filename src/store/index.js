@@ -1,26 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import actions from './actions'
-import mutations from './mutations'
+import project from './modules/project'
+import server from './modules/server'
+import router from './modules/router'
 
 Vue.use(Vuex)
 
-let state = {
-  port: '',
-  host: '',
-  baseUrl: '',
-  page: '',
-  // 所有的项目
-  projectList: [],
-  // 当前的打开的项目
-  projectId: '',
-  // 所有的api
-  apiLists: {}
-}
-
 export default new Vuex.Store({
-  state,
-  actions,
-  mutations,
-  modules: {}
+  modules: {
+    project: {
+      state: {
+        // 所有的项目
+        projectList: [],
+        // 所有的api
+        apiLists: {}
+      },
+      ...project
+    },
+    server: {
+      state: {
+        started: false,
+        port: '',
+        host: '',
+        baseUrl: ''
+      },
+      ...server
+    },
+    router: {
+      state: {
+        active: '',
+        params: {}
+      },
+      ...router
+    }
+  }
 })
