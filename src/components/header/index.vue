@@ -31,7 +31,7 @@
               <el-col :span="6" style="padding-right: 18px; text-align: right;margin-top: 5px">
                 <el-row>
                   <!-- <el-button icon="el-icon-search" circle></el-button> -->
-                  <el-button type="primary" icon="el-icon-plus" circle></el-button>
+                  <el-button type="primary" icon="el-icon-plus" circle @click="createProject"></el-button>
                   <el-button type="success" icon="el-icon-bottom" circle @click="importData"></el-button>
                 </el-row>
               </el-col>
@@ -129,6 +129,7 @@ export default {
     changeRouter (name) {
       this.$meRoute.setActive(name)
     },
+    createProject () {},
     importData () {
       this.dialogVisible = true
     },
@@ -139,7 +140,7 @@ export default {
         onlineUserPassword: this.form.password
       }
       try {
-        await this.$store.dispatch('setProjectList', config)
+        await this.$store.dispatch('project/setProjectList', config)
         // 关闭弹窗
         this.dialogVisible = false
       } catch (error) {

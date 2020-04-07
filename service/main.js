@@ -149,11 +149,28 @@ function init () {
     })
   }
 
+  function updateApi ({projectId, mock}) {
+    return new Promise((resolve, reject) => {
+      getApiLists().then(data => {
+        if (!data) {
+          return reject(data)
+        }
+
+        if (data[projectId]) {
+          data[projectId].mock = mock
+          saveApiLists(data)
+          return resolve(data)
+        }
+      })
+    })
+  }
+
   window.saveProject = saveProject
   window.saveApiLists = saveApiLists
   window.getProject = getProject
   window.getApiLists = getApiLists
   window.delProject = delProject
+  window.updateApi = updateApi
   window.startWebserver = startWebserver
   window.openWindow = openWindow
 }

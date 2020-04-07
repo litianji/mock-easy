@@ -4,7 +4,7 @@
       <el-row>
         <div class="me-card__item">
           {{`${baseUrl}/mock/${data.projectId}${project.url}`}}
-          <el-link type="primary" class="me-api-list__copy">
+          <el-link type="primary" class="me-api-list__copy" @click="copyBaseUrl">
             <i class="el-icon-copy-document"></i>复制
           </el-link>
         </div>
@@ -13,10 +13,10 @@
 
     <div class="me-api-list__actions">
       <ul>
-        <!-- <li>
+        <li @click="createApi">
           <i class="el-icon-plus"></i>
           创建接口
-        </li>-->
+        </li>
         <li>
           <i class="el-icon-download"></i>
           更新接口
@@ -34,15 +34,15 @@
     <el-table :data="apiList" :border="true" style="width: 100%" size="small">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
+          <el-form label-position="top" size="mini" class="me-api-list__form">
             <el-form-item label="Mothod">
-              <span>{{ props.row.method }}</span>
+              <span class="me-card__item">{{ props.row.method }}</span>
             </el-form-item>
              <el-form-item label="URL">
-              <span>{{ props.row.url }}</span>
+              <span class="me-card__item">{{ props.row.url }}</span>
             </el-form-item>
              <el-form-item label="描述">
-              <span>{{ props.row.description }}</span>
+              <span class="me-card__item">{{ props.row.description }}</span>
             </el-form-item>
           </el-form>
         </template>
@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200px">
         <el-button-group slot-scope="btnScope">
-          <el-button  icon="el-icon-edit" @click="edit(btnScope.row._id, btnScope.row.mode)" size="mini"></el-button>
+          <el-button  icon="el-icon-edit" @click="edit(btnScope.row._id, btnScope.row)" size="mini"></el-button>
           <el-button  icon="el-icon-copy-document" @click="del(btnScope.row._id)" size="mini"></el-button>
           <el-button  icon="el-icon-delete" @click="del(btnScope.row._id)" size="mini"></el-button>
         </el-button-group>
@@ -107,14 +107,20 @@ export default {
     }
   },
   methods: {
-    edit (projectId, mode) {
+    edit (projectId, mock) {
       this.$meRoute.setActive('editor', {
         projectId: this.data.projectId,
-        mode
+        mock
       })
     },
     del (rowId) {
       console.log(rowId)
+    },
+    copyBaseUrl () {},
+    createApi () {
+      this.$meRoute.setActive('editor', {
+        projectId: this.data.projectId
+      })
     },
     tagColor (method) {
       let map = {

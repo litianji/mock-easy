@@ -27,14 +27,3 @@ export default {
   }
 }
 </script>
-
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  overflow: auto;
-  overflow-x: hidden;
-  background: #f8f9fa;
-}
-</style>

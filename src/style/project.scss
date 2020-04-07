@@ -1,6 +1,16 @@
 @import './mixins/mixins.scss';
 @import './var.scss';
 
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  background: #f8f9fa;
+}
+
+
 @include b(body) {
   width: $--me-container-width;
   margin: 0 auto;
@@ -37,3 +47,8 @@
   bottom: 30px;
   display: inline-block;
 }
+
+.el-input-group__prepend {
+  padding: 0 8px;
+}
+

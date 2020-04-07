@@ -15,7 +15,7 @@
 <script>
 /**
  * 此组件代替vue-router
- * 三种模式的router都不支持
+ * 三种模式的router都不支持,可能是我太菜了
  */
 import Vue from 'vue'
 

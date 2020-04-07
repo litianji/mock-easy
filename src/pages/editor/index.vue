@@ -14,20 +14,22 @@
           label-width="100px"
           label-position="top"
           size="small">
-          <el-form-item label="Method" prop="checkPass">
-            <el-select v-model="form.region" placeholder="请选择活动区域" class="me-server__btn">
-              <el-option label="阻止计算机睡眠" value="shanghai"></el-option>
-              <el-option label="随计算机睡眠" value="beijing"></el-option>
+          <el-form-item label="Method" prop="method">
+            <el-select v-model="form.method" class="me-server__btn">
+              <el-option label="GET" value="get"></el-option>
+              <el-option label="POST" value="post"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="Url" prop="checkPass">
-            <el-input v-model="form.ip"></el-input>
+          <el-form-item label="Url" prop="url">
+            <el-input v-model="form.url" placeholder="api/mock">
+              <template slot="prepend">/</template>
+            </el-input>
           </el-form-item>
-          <el-form-item label="描述" prop="checkPass">
-            <el-input v-model="form.ip"></el-input>
+          <el-form-item label="描述" prop="description">
+            <el-input v-model="form.description" placeholder="接口的描述"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="me-server__btn">更新</el-button>
+            <el-button type="primary" class="me-server__btn">{{data.mock ? `更新` : `创建`}}</el-button>
           </el-form-item>
         </el-form>
         <div class="me-api-list__actions">
@@ -61,10 +63,18 @@ export default {
   data () {
     return {
       codeEditor: null,
-      form: {}
+      form: {
+        method: 'get',
+        description: ''
+      }
     }
   },
   created () {
+    if (this.data.mock) {
+      this.form.method = this.data.mock.method
+      this.form.url = this.data.mock.url.replace(/^\//, '')
+      this.form.description = this.data.mock.description
+    }
   },
   mounted () {
     this.codeEditor = ace.edit(this.$refs.codeEditor)
@@ -78,7 +88,9 @@ export default {
     this.codeEditor.getSession().setUseWorker(false)
 
     this.$nextTick(() => {
-      this.codeEditor.setValue(this.data.mode)
+      if (this.data.mock) {
+        this.codeEditor.setValue(this.data.mock.mode)
+      }
       this.format()
     })
   },
