@@ -81,10 +81,9 @@ new Vue({
   render: h => h(App)
 })
 
-// 启动服务
-store.dispatch('server/startServer')
 // 获取mock api
 store.dispatch('project/getProjectList')
+store.dispatch('server/getConfig')
 
 // 监听服务端口变化
 // chrome.storage.local.onChanged.addListener((changes, namespace) => {

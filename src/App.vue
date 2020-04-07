@@ -3,7 +3,7 @@
     <el-header style="padding: 0; height: auto">
       <me-header></me-header>
     </el-header>
-    <el-main>
+    <el-main style="overflow: hidden">
       <div class="me-body">
         <me-router :routes="routes"/>
       </div>

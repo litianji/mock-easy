@@ -91,7 +91,7 @@ export default {
   },
   created () {
     // 测试数据
-    console.log(this.data)
+    // console.log(this.data)
   },
   computed: {
     baseUrl () {

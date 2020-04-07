@@ -22,7 +22,9 @@ export default new Vuex.Store({
         started: false,
         port: '',
         host: '',
-        baseUrl: ''
+        baseUrl: '',
+        startUp: 1,
+        sleep: 1
       },
       ...server
     },

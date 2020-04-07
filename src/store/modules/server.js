@@ -23,6 +23,20 @@ export default {
         })
       })
     },
+    getConfig ({ commit }) {
+      return new Promise((resolve, reject) => {
+        chrome.runtime.getBackgroundPage(background => {
+          if (!background) {
+            reject(new Error())
+          }
+
+          background.getConfig().then(config => {
+            commit('SET_CONFIG', config)
+            resolve(config)
+          })
+        })
+      })
+    },
     changePort ({ dispatch }, port) {
       chrome.storage.local.set({port}, () => {})
       return new Promise((resolve, reject) => {
