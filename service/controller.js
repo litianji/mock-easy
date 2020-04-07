@@ -43,27 +43,34 @@ function testHandle (ctx) {
 
 class Mock extends WSC.BaseHandler {
   async get () {
-    let method = this.request.method
-    let { projectId, url } = this.parseUrl(this.request.uri)
-    let { code, mode } = await this.findApiData(method, projectId, url)
-    this.setHeader('content-type', 'application/json')
-    let buf = new TextEncoder('utf-8').encode(mode).buffer
-    this.write(buf, code)
-    this.finish()
+    await this.requestHandle()
   }
 
   async post () {
+    await this.requestHandle()
+  }
+
+  async put () {
+    await this.requestHandle()
+  }
+
+  async requestHandle () {
+    // must keep-alive
+    this.request.headers['connection'] = 'keep-alive'
+
+    // method
     let method = this.request.method
+
+    // find mock data
     let { projectId, url } = this.parseUrl(this.request.uri)
     let { code, mode } = await this.findApiData(method, projectId, url)
-    this.setHeader('content-type', 'application/json')
+
+    // response
+    this.setHeader('Content-Type', 'application/json; charset=utf-8')
+    this.setHeader('Access-Control-Allow-Origin', '*')
     let buf = new TextEncoder('utf-8').encode(mode).buffer
     this.write(buf, code)
     this.finish()
-  }
-
-  put () {
-
   }
 
   parseUrl (uri) {
@@ -77,7 +84,6 @@ class Mock extends WSC.BaseHandler {
 
   async findApiData (method, id, url) {
     let res = await window.getApiLists(id)
-
     if (!res) {
       return {
         code: 404
@@ -101,7 +107,6 @@ class Mock extends WSC.BaseHandler {
         code: 405
       }
     }
-
     return {
       code: 200,
       mode: mockData.mode
