@@ -2,25 +2,11 @@
   <div class="me-project">
     <div class="me-project__main" v-if="projectList.length">
       <div class="me-project__list">
-        <el-card
-          class="me-card" shadow="hover"
+        <me-card
           v-for="item in projectList"
           :key="item._id"
-          @click.native="cardClick(item._id)">
-          <div class="me-card__content">
-            <h2>{{item.name}}</h2>
-            <div class="me-card__item">{{item.description}}</div>
-            <div class="me-card__item">{{item.url}}</div>
-            <div class="me-card__item">本地</div>
-            <div class="me-card__actions" @click="e => e.stopPropagation && e.stopPropagation()">
-              <el-button-group>
-                <el-button icon="el-icon-copy-document" size="small"></el-button>
-                <el-button icon="el-icon-share" size="small"></el-button>
-                <el-button icon="el-icon-delete" size="small" @click="delProject(item._id)"></el-button>
-              </el-button-group>
-            </div>
-          </div>
-        </el-card>
+          :data="item">
+        </me-card>
       </div>
     </div>
 
@@ -33,9 +19,10 @@
 
 <script>
 import MeEmpty from '../../components/Empty'
+import MeCard from '../../components/card'
 export default {
   name: 'MeProject',
-  components: {MeEmpty},
+  components: {MeEmpty, MeCard},
   data () {
     return {
     }

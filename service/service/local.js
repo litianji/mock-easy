@@ -113,11 +113,7 @@ function saveConfig (config) {
     getConfig().then(data => {
       let _config = { ...data, ...config }
       chrome.storage.local.set({ 'config': _config }, (data) => {
-        if (data) {
-          resolve(data)
-        } else {
-          reject(data)
-        }
+        resolve(data)
       })
     })
   })

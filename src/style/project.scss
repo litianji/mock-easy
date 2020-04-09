@@ -48,7 +48,34 @@ body {
   display: inline-block;
 }
 
-.el-input-group__prepend {
-  padding: 0 8px;
+@include b(form) {
+  .el-form-item__label {
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-block;
+    padding: 0 0 10px;
+    line-height: 1;
+  }
+
+  p {
+    padding: 8px 0;
+    line-height: 18px;
+    font-size: 12px;
+    margin: 0px;
+    word-break: break-all;
+  }
+  @include e(btn) {
+    width: 100%;
+  }
+
+  .el-select-dropdown {
+    left: 0!important;
+  }
+
+  .el-input-group__prepend {
+    padding: 0 8px;
+  }
 }
+
+
 

@@ -83,6 +83,7 @@ new Vue({
 
 // 获取mock api
 store.dispatch('project/getProjectList')
+// 获取服务配置
 store.dispatch('server/getConfig')
 
 // 监听服务端口变化

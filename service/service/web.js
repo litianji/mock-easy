@@ -1,20 +1,24 @@
 import controller from '../controller'
 import { saveConfig, getConfig } from './local'
+import defaultConfig from '../../config'
 
 const { WSC } = window
 let webServer
-let defaultPort = 8089
 
-function startWebserver (port) {
+function startWebserver (cport) {
   return new Promise((resolve, reject) => {
     getConfig().then(config => {
-      // 获取端口
-      let _port = port || config.port || defaultPort
+      let { port, fileFolder, startUp, sleep, host } = config
+      config.port = cport || port || defaultConfig.port
+      config.fileFolder = fileFolder || ''
+      config.startUp = startUp || defaultConfig.startUp.default
+      config.sleep = sleep || defaultConfig.sleep.default
+      config.host = '127.0.0.1' || host || defaultConfig.host
       // 启动服务
       webServer && webServer.stop()
       webServer = new WSC.WebApplication({
         host: config.host,
-        port: _port,
+        port: config.port,
         optBackground: true,
         renderIndex: true,
         handlers: controller
@@ -23,12 +27,11 @@ function startWebserver (port) {
 
       resolve({
         ...config,
-        host: '127.0.0.1',
-        port: _port
+        host: '127.0.0.1'
       })
 
       // 保存端口
-      saveConfig({port: _port})
+      saveConfig(config)
     }).catch((e) => {
       reject(e)
     })

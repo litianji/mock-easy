@@ -56,6 +56,16 @@
                 </div>
               </el-col>
             </el-row>
+
+            <el-row v-if="router.active === 'create'">
+              <el-col :span="18">
+                <el-avatar shape="square" icon="el-icon-plus" :size="50"></el-avatar>
+                <div class="me-header__info">
+                  <h2>创建项目</h2>
+                  <p>创建一个令人愉快的项目</p>
+                </div>
+              </el-col>
+            </el-row>
           </div>
         </div>
 
@@ -129,7 +139,9 @@ export default {
     changeRouter (name) {
       this.$meRoute.setActive(name)
     },
-    createProject () {},
+    createProject () {
+      this.changeRouter('create')
+    },
     importData () {
       this.dialogVisible = true
     },
