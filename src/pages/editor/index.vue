@@ -110,10 +110,22 @@ export default {
     },
     async submit () {
       this.form.mode = this.codeEditor.getValue()
-      await this.$store.dispatch('apiList/createApi', {
-        projectId: this.data.projectId,
-        api: this.form
-      })
+      if (this.data.mock) {
+        // 更新
+        await this.$store.dispatch('apiList/updateApi', {
+          projectId: this.data.projectId,
+          api: {
+            ...this.data.mock,
+            ...this.form
+          }
+        })
+      } else {
+        // 创建
+        await this.$store.dispatch('apiList/createApi', {
+          projectId: this.data.projectId,
+          api: this.form
+        })
+      }
 
       this.close()
     }

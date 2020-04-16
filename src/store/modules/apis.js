@@ -27,6 +27,12 @@ export default {
     async createApi ({ dispatch }, { projectId, api }) {
       let bk = await background()
       await bk.ApisStorage.add(projectId, api)
+      dispatch('getApiList', projectId)
+    },
+    async updateApi ({ dispatch }, { projectId, api }) {
+      let bk = await background()
+      await bk.ApisStorage.update(projectId, api)
+      dispatch('getApiList', projectId)
     }
   }
 }

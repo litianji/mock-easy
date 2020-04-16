@@ -72,6 +72,14 @@ export default {
       return this.$store.state.project.token
     }
   },
+  watch: {
+    data: {
+      deep: true,
+      handler (val) {
+        !val.loaded && this.downloadApi()
+      }
+    }
+  },
   mounted () {
     if (!this.data.loaded) {
       this.downloadApi()

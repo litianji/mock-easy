@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async submitForm () {
-      this.form.url = this.form.url || '/'
+      this.form.url = this.form.url.replace(/^\/?(.*)/, '/$1')
       this.form.description = this.form.description || this.form.name
       await this.$store.dispatch('project/createProject', this.form)
 

@@ -1,4 +1,5 @@
 import BaseStorage from './base'
+import ApisStorage from './api-list'
 import { PROJECT } from '../../constant'
 
 export default class ProjectStorage extends BaseStorage {
@@ -26,6 +27,7 @@ export default class ProjectStorage extends BaseStorage {
   static async del (projectId) {
     let key = `${PROJECT}_${projectId}`
     let res = await this.remove(key)
+    await ApisStorage.del(projectId)
     return res
   }
 

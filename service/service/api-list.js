@@ -3,11 +3,10 @@ import { API_LIST } from '../../constant'
 
 export default class ApisStorage extends BaseStorage {
   static async add (projectId, api) {
-    console.log(api)
     if(!api._id) {
       api._id = this.createId()
     }
-    let apis = this.find(projectId)
+    let apis = await this.find(projectId)
     if (!apis || !apis.length) {
       apis = [api]
     } else {
@@ -66,7 +65,7 @@ export default class ApisStorage extends BaseStorage {
       return new Error('can not find project!')
     }
     apis = (apis || []).map(_api => {
-      if(_api._id === apiId) {
+      if(_api._id === api._id) {
         return {
           ..._api,
           ...api

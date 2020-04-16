@@ -87,12 +87,12 @@
         <el-form-item  prop="checkPass">
           <el-input type="password" v-model="form.password" autocomplete="off" placeholder="密码"></el-input>
         </el-form-item>
-        <el-form-item prop="type">
+        <!-- <el-form-item prop="type">
           <el-checkbox-group v-model="form.type">
             <el-checkbox label="团队项目" name="type"></el-checkbox>
             <el-checkbox label="个人项目" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="submit" style="width: 100%">立即导入</el-button>
         </el-form-item>
@@ -117,10 +117,10 @@ export default {
       showApiId: false,
       dialogVisible: false,
       form: {
-        type: [],
-        address: 'https://easy-mock.bookset.io',
-        userName: 'ltj111',
-        password: '2131410li'
+        type: []
+        // address: 'https://easy-mock.bookset.io',
+        // userName: 'ltj111',
+        // password: '2131410li'
       },
       formLabelWidth: '60'
     }
@@ -147,7 +147,7 @@ export default {
     },
     async submit () {
       let config = {
-        onlineUrl: this.form.address,
+        onlineUrl: this.form.address.replace(/\/$/, ''),
         onlineUserName: this.form.userName,
         onlineUserPassword: this.form.password
       }

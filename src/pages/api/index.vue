@@ -112,7 +112,7 @@ export default {
     },
     copyBaseUrl () {},
     createApi () {
-      this.$meRoute.setActive('editor', this.data)
+      this.$meRoute.setActive('editor', { ...this.data, mock: null })
     },
     tagColor (method) {
       let map = {
