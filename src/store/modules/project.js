@@ -1,5 +1,7 @@
-import { getProjects } from '../../api/import-mock'
-const {chrome} = window
+// import { getProjects } from '../../api/import-mock'
+import { background } from '../../api/background'
+import { loginEm, getProject } from '../../api'
+// const {chrome} = window
 export default {
   namespaced: true,
   mutations: {
@@ -8,34 +10,58 @@ export default {
     },
     SET_API_LIST (state, payload) {
       state.apiLists = payload
+    },
+    SET_TOKEN (state, payload) {
+      state.token = payload
     }
   },
   actions: {
-    // 存储到store中
-    async setProjectList ({ commit, state }, params) {
-      let {projects, apiLists} = await getProjects(params)
-
-      // 存储到后台chrome服务
-      chrome.runtime.getBackgroundPage(background => {
-        background.saveProject(projects)
-        background.saveApiLists(apiLists)
+    async downloadProjects ({ commit, state }, params) {
+      let login = await loginEm({
+        name: params.onlineUserName,
+        password: params.onlineUserPassword,
+        baseUrl: params.onlineUrl
       })
+      let token = login.data.token
+      // 保存token
+      commit('SET_TOKEN', token)
+      setTimeout(() => { commit('SET_TOKEN', null) }, 1000 * 60 * 10)
+      // 获取项目
+      let res = await getProject({
+        token,
+        baseUrl: params.onlineUrl
+      })
+      let projects = res.data.map(item => {
+        return {
+          ...item,
+          onlineUrl: params.onlineUrl
+        }
+      })
+      let bk = await background()
+      await bk.ProjectStorage.adds(projects)
 
-      commit('SET_PROJECT_LIST', [...state.projectList, ...projects])
-      commit('SET_API_LIST', {...state.apiLists, ...apiLists})
-      return {projects, apiLists}
+      let all = await bk.ProjectStorage.find()
+      commit('SET_PROJECT_LIST', all)
     },
-    getProjectList ({ commit }) {
-      chrome.runtime.getBackgroundPage(background => {
-        background.getProject().then(data => {
-          console.log('项目有', data)
-          commit('SET_PROJECT_LIST', data || [])
-        })
-        background.getApiLists().then(data => {
-          console.log('api', data)
-          commit('SET_API_LIST', data || {})
-        })
-      })
+    async getProjectList ({ commit }) {
+      let bk = await background()
+      let projects = await bk.ProjectStorage.find()
+      console.log('所有项目', projects)
+      commit('SET_PROJECT_LIST', projects || [])
+    },
+    async removeProject ({ commit }, projectId) {
+      console.log(projectId)
+      let bk = await background()
+      await bk.ProjectStorage.del(projectId)
+
+      let all = await bk.ProjectStorage.find()
+      commit('SET_PROJECT_LIST', all)
+    },
+    async updateProject ({ commit }, project) {
+      let bk = await background()
+      await bk.ProjectStorage.update(project)
+      let all = await bk.ProjectStorage.find()
+      commit('SET_PROJECT_LIST', all)
     }
   }
 }

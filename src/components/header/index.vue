@@ -152,10 +152,11 @@ export default {
         onlineUserPassword: this.form.password
       }
       try {
-        await this.$store.dispatch('project/setProjectList', config)
+        await this.$store.dispatch('project/downloadProjects', config)
         // 关闭弹窗
         this.dialogVisible = false
       } catch (error) {
+        this.dialogVisible = false
         console.log(error)
       }
     }
@@ -164,17 +165,13 @@ export default {
     router () {
       return this.$store.state.router
     },
-    projectId () {
+    projectName () {
       let active = this.router.active
       if (active === 'api') {
-        return this.router.params[active].projectId
+        return this.router.params[active].projectName
       } else {
         return ''
       }
-    },
-    projectName () {
-      let p = this.$store.state.project.apiLists[this.projectId]
-      return p && p.project.name
     }
   },
   mounted () {

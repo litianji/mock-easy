@@ -1,6 +1,12 @@
 
-// import controller from './controller'
-import { startWebserver } from './service/web'
+import ProjectStorage from './service/project'
+import ApisStorage from './service/api-list'
+import HttpServer from './service/http'
+
+// background server api
+window.ProjectStorage = ProjectStorage
+window.ApisStorage = ApisStorage
+window.HttpServer = HttpServer
 
 const { chrome } = window
 chrome.app.runtime.onLaunched.addListener(init)
@@ -16,9 +22,6 @@ function init () {
   chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log(request)
   })
-
-  // 启动服务
-  startWebserver()
 
   function openWindow (path) {
     if (win) win.close()

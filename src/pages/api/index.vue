@@ -3,7 +3,7 @@
     <div class="me-api-list__info">
       <el-row>
         <div class="me-card__item">
-          {{`${baseUrl}/mock/${data.projectId}${project.url}`}}
+          {{`${baseUrl}/mock/${data.projectId}${data.url}`}}
           <el-link type="primary" class="me-api-list__copy" @click="copyBaseUrl">
             <i class="el-icon-copy-document"></i>复制
           </el-link>
@@ -98,12 +98,7 @@ export default {
       return this.$store.state.server.baseUrl
     },
     apiList () {
-      let store = this.$store.state.project
-      return store.apiLists[this.data.projectId].mocks
-    },
-    project () {
-      let store = this.$store.state.project
-      return store.apiLists[this.data.projectId].project
+      return this.$store.state.apiList.apiList
     }
   },
   methods: {
@@ -114,7 +109,7 @@ export default {
       })
     },
     del (rowId) {
-      console.log(rowId)
+      this.$store.dispatch('apiList/delApi', { projectId: this.data.projectId, apiId: rowId })
     },
     copyBaseUrl () {},
     createApi () {

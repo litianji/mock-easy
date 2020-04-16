@@ -1,51 +1,31 @@
-const {chrome} = window
+import { background } from '../../api/background'
 export default {
   namespaced: true,
   mutations: {
     SET_CONFIG (state, payload) {
-      state.started = true
       payload.port && (state.port = payload.port)
       payload.host && (state.host = payload.host)
       state.baseUrl = 'http://' + state.host + ':' + state.port
+    },
+    SET_STATUS (state, payload) {
+      state.started = payload
     }
   },
   actions: {
-    startServer ({ commit }) {
-      return new Promise((resolve, reject) => {
-        chrome.runtime.getBackgroundPage((background) => {
-          if (!background) {
-            reject(new Error())
-          }
-          background.startWebserver().then(res => {
-            commit('SET_CONFIG', res)
-            resolve(res)
-          })
-        })
-      })
+    async startServer ({ commit }, port) {
+      let bk = await background()
+      let config = await bk.HttpServer.startWebserver(port)
+      commit('SET_CONFIG', config)
+      commit('SET_STATUS', true)
+      return config
     },
-    getConfig ({ commit }) {
-      return new Promise((resolve, reject) => {
-        chrome.runtime.getBackgroundPage(background => {
-          if (!background) {
-            reject(new Error())
-          }
-
-          background.getConfig().then(config => {
-            commit('SET_CONFIG', config)
-            resolve(config)
-          })
-        })
-      })
+    async stopServer ({ commit }) {
+      let bk = await background()
+      await bk.HttpServer.stopServer()
+      commit('SET_STATUS', false)
     },
     changePort ({ dispatch }, port) {
-      chrome.storage.local.set({port}, () => {})
-      return new Promise((resolve, reject) => {
-        dispatch('startServer').then(res => {
-          resolve(res)
-        }).catch(e => {
-          reject(e)
-        })
-      })
+      dispatch('startServer', port)
     }
   }
 }

@@ -9,7 +9,7 @@
         <h2>更新接口</h2>
         <el-form
           :model="form"
-          class="me-editor__form"
+          class="me-editor__form me-form"
           ref="ruleForm"
           label-width="100px"
           label-position="top"

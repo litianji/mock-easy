@@ -5,7 +5,9 @@
         <me-card
           v-for="item in projectList"
           :key="item._id"
-          :data="item">
+          :data="item"
+          @click="cardClick"
+          @del="delProject">
         </me-card>
       </div>
     </div>
@@ -30,21 +32,21 @@ export default {
   created () {
   },
   methods: {
-    cardClick (id) {
+    cardClick (data) {
       this.$meRoute.setActive('api', {
-        projectId: id
+        projectId: data._id,
+        projectName: data.name,
+        url: data.url
       })
+      this.$store.dispatch('apiList/getApiList', data._id)
     },
-    delProject (id) {
+    delProject (data) {
       this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.background.delProject(id).then(res => {
-          this.background.getProject().then(data => {
-            this.$store.commit('SET_PROJECT_LIST', data || [])
-          })
+        this.$store.dispatch('project/removeProject', data._id).then(res => {
           this.$message({
             type: 'info',
             message: '删除成功!'
