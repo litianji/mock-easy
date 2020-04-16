@@ -1,4 +1,4 @@
-import { getApiList } from '../../api'
+import { getApiList, loginEm } from '../../api'
 import { background } from '../../api/background'
 export default {
   namespaced: true,
@@ -9,6 +9,14 @@ export default {
   },
   actions: {
     async downloadApiList (context, params) {
+      if (!params.token) {
+        let login = await loginEm({
+          name: params.onlineUserName,
+          password: params.onlinePassword,
+          baseUrl: params.baseUrl
+        })
+        params.token = login.data.token
+      }
       let res = await getApiList(params)
       let bk = await background()
       // 存储

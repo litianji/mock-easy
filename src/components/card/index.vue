@@ -9,11 +9,11 @@
       <div class="me-card__item">{{data.description}}</div>
       <div class="me-card__item">{{data.url}}</div>
       <div class="me-card__item">{{data.onlineUrl}}</div>
-      <div class="me-card__actions" @click="e => e.stopPropagation && e.stopPropagation()">
+      <div class="me-card__actions">
         <el-button-group>
-          <el-button icon="el-icon-copy-document" size="small"></el-button>
-          <el-button icon="el-icon-share" size="small"></el-button>
-          <el-button icon="el-icon-delete" size="small" @click="delProject(data)"></el-button>
+          <el-button icon="el-icon-copy-document" size="small" title="复制项目地址" class="copy-url-p" @click="clip"></el-button>
+          <el-button icon="el-icon-edit" size="small" title="编辑项目" @click.stop="cardClick(data)"></el-button>
+          <el-button icon="el-icon-delete" size="small" title="删除项目" @click.stop="delProject(data)"></el-button>
         </el-button-group>
       </div>
     </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard'
 export default {
   name: 'MeCard',
   props: {
@@ -36,15 +37,37 @@ export default {
   data () {
     return {
       progress: 0,
-      status: ''
+      status: '',
+      cliped: false
     }
   },
   methods: {
+    clip () {
+      let baseUrl = this.$store.state.server.baseUrl
+      let url = `${baseUrl}/mock/${this.data._id}${this.data.url}`
+      const clipboard = new Clipboard('.copy-url-p', {
+        text () {
+          return url
+        }
+      })
+      this.cliped = true
+      clipboard.on('success', (e) => {
+        this.cliped = false
+        e.clearSelection()
+        clipboard.destroy()
+        this.$message({
+          type: 'info',
+          message: '项目地址已复制到剪切板!'
+        })
+      })
+    },
     delProject (data) {
       this.$emit('del', data)
     },
     cardClick (data) {
-      this.$emit('click', data)
+      if (!this.cliped) {
+        this.$emit('click', data)
+      }
     },
     async downloadApi () {
       try {

@@ -110,6 +110,7 @@ export default {
     },
     async submit () {
       this.form.mode = this.codeEditor.getValue()
+      this.form.url = this.form.url.replace(/^\/?(.*)/, '/$1')
       if (this.data.mock) {
         // 更新
         await this.$store.dispatch('apiList/updateApi', {
