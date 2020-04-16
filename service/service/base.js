@@ -38,11 +38,15 @@ export default class BaseStorage {
     return new Promise((resolve, reject) => {
       let timer = setTimeout(() => {
         reject(new Error('remove storage.local time out!'))
-      })
+      }, timeout)
       chrome.storage.local.remove(key, () => {
         clearTimeout(timer)
         resolve(key)
       })
     })
+  }
+
+  static createId () {
+    return new Date().getTime().toString(16)
   }
 }

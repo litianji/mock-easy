@@ -50,7 +50,6 @@ export default {
       commit('SET_PROJECT_LIST', projects || [])
     },
     async removeProject ({ commit }, projectId) {
-      console.log(projectId)
       let bk = await background()
       await bk.ProjectStorage.del(projectId)
 
@@ -60,6 +59,15 @@ export default {
     async updateProject ({ commit }, project) {
       let bk = await background()
       await bk.ProjectStorage.update(project)
+      let all = await bk.ProjectStorage.find()
+      commit('SET_PROJECT_LIST', all)
+    },
+    async createProject ({ commit }, project) {
+      project.loaded = true
+      project.onlineUrl = 'localhost'
+      let bk = await background()
+      await bk.ProjectStorage.add(project)
+
       let all = await bk.ProjectStorage.find()
       commit('SET_PROJECT_LIST', all)
     }

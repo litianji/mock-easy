@@ -3,8 +3,12 @@ import { API_LIST } from '../../constant'
 
 export default class ApisStorage extends BaseStorage {
   static async add (projectId, api) {
+    console.log(api)
+    if(!api._id) {
+      api._id = this.createId()
+    }
     let apis = this.find(projectId)
-    if (!apis) {
+    if (!apis || !apis.length) {
       apis = [api]
     } else {
       apis.push(api)

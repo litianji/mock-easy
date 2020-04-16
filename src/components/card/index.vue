@@ -8,7 +8,7 @@
       <h2>{{data.name}}</h2>
       <div class="me-card__item">{{data.description}}</div>
       <div class="me-card__item">{{data.url}}</div>
-      <div class="me-card__item">本地</div>
+      <div class="me-card__item">{{data.onlineUrl}}</div>
       <div class="me-card__actions" @click="e => e.stopPropagation && e.stopPropagation()">
         <el-button-group>
           <el-button icon="el-icon-copy-document" size="small"></el-button>
@@ -35,7 +35,8 @@ export default {
   },
   data () {
     return {
-      progress: 0
+      progress: 0,
+      status: ''
     }
   },
   methods: {

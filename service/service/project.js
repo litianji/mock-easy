@@ -3,6 +3,10 @@ import { PROJECT } from '../../constant'
 
 export default class ProjectStorage extends BaseStorage {
   static async add (project) {
+    if (!project._id) {
+      project._id = this.createId()
+    }
+    
     let key = `${PROJECT}_${project._id}`
     let data = {}
     data[key] = project
@@ -42,7 +46,7 @@ export default class ProjectStorage extends BaseStorage {
   static async find (projectId) {
     if(projectId) {
       let project = await this.get(`${PROJECT}_${projectId}`)
-      return project.project
+      return project
     } else {
       let storage = await this.get()
       let projects = Object.keys(storage).filter(key => key.includes(PROJECT)).map(key => storage[key])

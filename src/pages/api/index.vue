@@ -17,14 +17,14 @@
           <i class="el-icon-plus"></i>
           创建接口
         </li>
-        <li>
+        <!-- <li>
           <i class="el-icon-download"></i>
           更新接口
         </li>
         <li>
           <i class="el-icon-upload2"></i>
           上传接口
-        </li>
+        </li> -->
         <!-- <li>
           <i class="el-icon-notebook-1"></i>
           历史记录
@@ -90,8 +90,7 @@ export default {
     }
   },
   created () {
-    // 测试数据
-    // console.log(this.data)
+    this.$store.dispatch('apiList/getApiList', this.data.projectId)
   },
   computed: {
     baseUrl () {
@@ -104,7 +103,7 @@ export default {
   methods: {
     edit (projectId, mock) {
       this.$meRoute.setActive('editor', {
-        projectId: this.data.projectId,
+        ...this.data,
         mock
       })
     },
@@ -113,9 +112,7 @@ export default {
     },
     copyBaseUrl () {},
     createApi () {
-      this.$meRoute.setActive('editor', {
-        projectId: this.data.projectId
-      })
+      this.$meRoute.setActive('editor', this.data)
     },
     tagColor (method) {
       let map = {
@@ -127,6 +124,9 @@ export default {
       }
       return Object.keys(map).find(item => map[item])
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('apiList/SET_API_LIST', [])
   }
 }
 </script>

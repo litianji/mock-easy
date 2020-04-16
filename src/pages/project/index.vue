@@ -38,7 +38,6 @@ export default {
         projectName: data.name,
         url: data.url
       })
-      this.$store.dispatch('apiList/getApiList', data._id)
     },
     delProject (data) {
       this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {

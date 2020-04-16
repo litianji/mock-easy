@@ -23,6 +23,10 @@ export default {
       let bk = await background()
       await bk.ApisStorage.del(projectId, apiId)
       dispatch('getApiList', projectId)
+    },
+    async createApi ({ dispatch }, { projectId, api }) {
+      let bk = await background()
+      await bk.ApisStorage.add(projectId, api)
     }
   }
 }

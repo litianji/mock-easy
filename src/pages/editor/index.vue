@@ -21,7 +21,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="Url" prop="url">
-            <el-input v-model="form.url" placeholder="api/mock">
+            <el-input v-model="form.url" placeholder="example">
               <template slot="prepend">/</template>
             </el-input>
           </el-form-item>
@@ -29,7 +29,7 @@
             <el-input v-model="form.description" placeholder="接口的描述"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="me-server__btn">{{data.mock ? `更新` : `创建`}}</el-button>
+            <el-button type="primary" class="me-server__btn" @click="submit">{{data.mock ? `更新` : `创建`}}</el-button>
           </el-form-item>
         </el-form>
         <div class="me-api-list__actions">
@@ -64,6 +64,7 @@ export default {
     return {
       codeEditor: null,
       form: {
+        url: '',
         method: 'get',
         description: ''
       }
@@ -104,8 +105,17 @@ export default {
     },
     close () {
       this.$meRoute.setActive('api', {
-        projectId: this.data.projectId
+        ...this.data
       })
+    },
+    async submit () {
+      this.form.mode = this.codeEditor.getValue()
+      await this.$store.dispatch('apiList/createApi', {
+        projectId: this.data.projectId,
+        api: this.form
+      })
+
+      this.close()
     }
   },
   computed: {
