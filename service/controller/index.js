@@ -1,4 +1,6 @@
 import BaseRequest from './base'
+import ApisStorage from '../service/api-list'
+import ProjectStorage from '../service/project'
 
 class Mock extends BaseRequest {
   async requestHandle () {
@@ -8,6 +10,7 @@ class Mock extends BaseRequest {
     // find mock data
     let { projectId, url } = this.parseUrl(this.request.uri)
     let { code, mode } = await this.findApiData(method, projectId, url)
+
     this.setStatusCode(code)
     return mode
   }
@@ -21,15 +24,16 @@ class Mock extends BaseRequest {
     }
   }
 
-  async findApiData (method, id, url) {
-    let res = await window.getApiLists(id)
-    if (!res) {
+  async findApiData (method, projectId, url) {
+    let project = await ProjectStorage.find(projectId)
+    let mocks = await ApisStorage.find(projectId)
+
+    if (!mocks) {
       return {
         code: 404
       }
     }
 
-    let { mocks, project } = res
     let contextUrl = project.url
 
     let mockData = mocks.find(item => (this.concatUrl(contextUrl, item.url) === url))

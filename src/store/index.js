@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import project from './modules/project'
 import server from './modules/server'
 import router from './modules/router'
+import apis from './modules/apis'
 
 Vue.use(Vuex)
 
@@ -10,12 +11,16 @@ export default new Vuex.Store({
   modules: {
     project: {
       state: {
-        // 所有的项目
         projectList: [],
-        // 所有的api
-        apiLists: {}
+        token: null
       },
       ...project
+    },
+    apiList: {
+      state: {
+        apiList: []
+      },
+      ...apis
     },
     server: {
       state: {

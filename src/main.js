@@ -32,7 +32,8 @@ import {
   Divider,
   Radio,
   RadioGroup,
-  RadioButton
+  RadioButton,
+  Progress
 } from 'element-ui'
 import store from './store'
 // import router from './router'
@@ -70,6 +71,7 @@ Vue.component(Divider.name, Divider)
 Vue.component(Radio.name, Radio)
 Vue.component(RadioGroup.name, RadioGroup)
 Vue.component(RadioButton.name, RadioButton)
+Vue.component(Progress.name, Progress)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
@@ -81,10 +83,10 @@ new Vue({
   render: h => h(App)
 })
 
+// 启动服务
+store.dispatch('server/startServer')
 // 获取mock api
 store.dispatch('project/getProjectList')
-// 获取服务配置
-store.dispatch('server/getConfig')
 
 // 监听服务端口变化
 // chrome.storage.local.onChanged.addListener((changes, namespace) => {

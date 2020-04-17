@@ -47,7 +47,8 @@ let getApiList = (params) => {
     params: {
       project_id: params.id,
       page_size: 1000
-    }
+    },
+    onDownloadProgress: params.onDownloadProgress
   })
 }
 

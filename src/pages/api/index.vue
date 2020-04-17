@@ -3,8 +3,8 @@
     <div class="me-api-list__info">
       <el-row>
         <div class="me-card__item">
-          {{`${baseUrl}/mock/${data.projectId}${project.url}`}}
-          <el-link type="primary" class="me-api-list__copy" @click="copyBaseUrl">
+          {{`${baseUrl}/mock/${data.projectId}${data.url}`}}
+          <el-link type="primary" class="me-api-list__copy copy-url" @click="clipBaseUrl">
             <i class="el-icon-copy-document"></i>复制
           </el-link>
         </div>
@@ -17,14 +17,14 @@
           <i class="el-icon-plus"></i>
           创建接口
         </li>
-        <li>
+        <!-- <li>
           <i class="el-icon-download"></i>
           更新接口
         </li>
         <li>
           <i class="el-icon-upload2"></i>
           上传接口
-        </li>
+        </li> -->
         <!-- <li>
           <i class="el-icon-notebook-1"></i>
           历史记录
@@ -66,9 +66,9 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200px">
         <el-button-group slot-scope="btnScope">
-          <el-button  icon="el-icon-edit" @click="edit(btnScope.row._id, btnScope.row)" size="mini"></el-button>
-          <el-button  icon="el-icon-copy-document" @click="del(btnScope.row._id)" size="mini"></el-button>
-          <el-button  icon="el-icon-delete" @click="del(btnScope.row._id)" size="mini"></el-button>
+          <el-button  icon="el-icon-copy-document" title="复制接口地址" @click="clipApi(btnScope.row.url)" size="mini" class="copy-url"></el-button>
+          <el-button  icon="el-icon-edit" title="编辑接口" @click="edit(btnScope.row._id, btnScope.row)" size="mini"></el-button>
+          <el-button  icon="el-icon-delete" title="删除接口" @click="del(btnScope.row._id)" size="mini"></el-button>
         </el-button-group>
       </el-table-column>
     </el-table>
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard'
 export default {
   name: 'MeApiList',
   props: {
@@ -90,37 +91,51 @@ export default {
     }
   },
   created () {
-    // 测试数据
-    // console.log(this.data)
+    this.$store.dispatch('apiList/getApiList', this.data.projectId)
   },
   computed: {
     baseUrl () {
       return this.$store.state.server.baseUrl
     },
     apiList () {
-      let store = this.$store.state.project
-      return store.apiLists[this.data.projectId].mocks
-    },
-    project () {
-      let store = this.$store.state.project
-      return store.apiLists[this.data.projectId].project
+      return this.$store.state.apiList.apiList
     }
   },
   methods: {
+    clip (url) {
+      const clipboard = new Clipboard('.copy-url', {
+        text () {
+          return url
+        }
+      })
+      clipboard.on('success', (e) => {
+        e.clearSelection()
+        clipboard.destroy()
+        this.$message({
+          type: 'info',
+          message: '地址已复制到剪切板!'
+        })
+      })
+    },
+    clipApi (path) {
+      let url = `${this.baseUrl}/mock/${this.data.projectId}${this.data.url}${path}`
+      this.clip(url)
+    },
+    clipBaseUrl () {
+      let url = `${this.baseUrl}/mock/${this.data.projectId}${this.data.url}`
+      this.clip(url)
+    },
     edit (projectId, mock) {
       this.$meRoute.setActive('editor', {
-        projectId: this.data.projectId,
+        ...this.data,
         mock
       })
     },
     del (rowId) {
-      console.log(rowId)
+      this.$store.dispatch('apiList/delApi', { projectId: this.data.projectId, apiId: rowId })
     },
-    copyBaseUrl () {},
     createApi () {
-      this.$meRoute.setActive('editor', {
-        projectId: this.data.projectId
-      })
+      this.$meRoute.setActive('editor', { ...this.data, mock: null })
     },
     tagColor (method) {
       let map = {
@@ -132,6 +147,9 @@ export default {
       }
       return Object.keys(map).find(item => map[item])
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('apiList/SET_API_LIST', [])
   }
 }
 </script>

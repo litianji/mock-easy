@@ -75,6 +75,9 @@ export default {
       sleeps: config.sleep.map
     }
   },
+  methods: {
+    submitForm () {}
+  },
   computed: {
     config () {
       return this.$store.state.server
