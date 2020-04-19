@@ -34,7 +34,7 @@
           </el-form-item>
           <el-divider></el-divider>
 
-          <el-form-item label="文件服务（可选）">
+          <el-form-item label="文件服务">
             <el-checkbox v-model="form.fileServer">打开文件服务，你可以设置选择一个文件夹以http服务形式访问本地文件</el-checkbox>
             <el-input
               v-model="form.fileFolder"

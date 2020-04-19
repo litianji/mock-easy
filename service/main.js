@@ -11,6 +11,7 @@ window.HttpServer = HttpServer
 const { chrome } = window
 chrome.app.runtime.onLaunched.addListener(init)
 chrome.app.runtime.onRestarted.addListener(init)
+chrome.runtime.onInstalled.addListener(init)
 
 function init () {
   let win
@@ -33,8 +34,8 @@ function init () {
         'bounds': {
           'left': 0,
           'top': 0,
-          'width': d[0].bounds.width,
-          'height': d[0].bounds.height
+          'width': 1100,
+          'height': 700
         }
       }, function (w) {
         win = w
