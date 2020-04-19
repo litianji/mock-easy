@@ -2,10 +2,16 @@
 @import '../../style/var.scss';
 
 @include b(server) {
-  background: #fff;
-  box-shadow: 0 2px 3px #eee;
-  border: 1px solid #eee;
-  border-radius: 4px;
+  padding-bottom: 20px;
+
+  @include e(container) {
+    background: #fff;
+    width: $--me-container-width;
+    margin: 0 auto;
+    box-shadow: 0 2px 3px #eee;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
 
   @include e(content) {
     width: 450px;
@@ -16,5 +22,9 @@
 
   @include e(btn) {
     width: 100%;
+  }
+
+  @include e(tag) {
+    cursor: pointer;
   }
 }

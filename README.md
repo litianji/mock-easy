@@ -1,3 +1,3 @@
-# mock-easy
+# Mock Easy
 
-将Easy Mock以chrome插件形式迁移到本地
+将Easy Mock以chrome应用形式迁移到本地

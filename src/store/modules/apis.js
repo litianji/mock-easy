@@ -3,6 +3,9 @@ import { background } from '../../api/background'
 export default {
   namespaced: true,
   mutations: {
+    SET_ACTIVE (state, payload) {
+      state.activeProject = payload
+    },
     SET_API_LIST (state, payload) {
       state.apiList = payload
     }

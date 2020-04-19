@@ -4,15 +4,15 @@
   "startUp": {
     "default": 1,
     "map": [
-      {"value": 0, "label": "Chrome启动时"},
-      {"value": 1, "label": "Mock Easy启动时"}
+      {"value": 1, "label": "Chrome启动时"},
+      {"value": 2, "label": "Mock Easy启动时"}
     ]
   },
   "sleep": {
     "default": 1,
     "map":[
-      {"value": 0, "label": "阻止计算机睡眠"},
-      {"value": 1, "label": "随计算机睡眠"}
+      {"value": 1, "label": "阻止计算机睡眠"},
+      {"value": 2, "label": "随计算机睡眠"}
     ]
   }
 }

@@ -114,7 +114,7 @@ export default {
       if (this.data.mock) {
         // 更新
         await this.$store.dispatch('apiList/updateApi', {
-          projectId: this.data.projectId,
+          projectId: this.data._id,
           api: {
             ...this.data.mock,
             ...this.form
@@ -123,16 +123,13 @@ export default {
       } else {
         // 创建
         await this.$store.dispatch('apiList/createApi', {
-          projectId: this.data.projectId,
+          projectId: this.data._id,
           api: this.form
         })
       }
 
       this.close()
     }
-  },
-  computed: {
-
   }
 }
 </script>

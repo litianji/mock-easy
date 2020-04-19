@@ -3,10 +3,16 @@
 
 @include b(api-list) {
   // border: 1px solid #dcdfe6;
+  padding-bottom: 20px;
   .el-table {
     &::before {
       content: none;
     }
+  }
+
+  @include e(container) {
+    width: $--me-container-width;
+    margin: 0 auto;
   }
 
   @include e(info) {

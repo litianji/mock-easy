@@ -18,6 +18,7 @@ export default new Vuex.Store({
     },
     apiList: {
       state: {
+        activeProject: {},
         apiList: []
       },
       ...apis

@@ -36,6 +36,7 @@ class Mock extends BaseRequest {
 
     let contextUrl = project.url
 
+    // mapping
     let mockData = mocks.find(item => (this.concatUrl(contextUrl, item.url) === url))
 
     if (!mockData) {

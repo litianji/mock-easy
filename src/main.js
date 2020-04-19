@@ -33,7 +33,8 @@ import {
   Radio,
   RadioGroup,
   RadioButton,
-  Progress
+  Progress,
+  Upload
 } from 'element-ui'
 import store from './store'
 // import router from './router'
@@ -72,6 +73,7 @@ Vue.component(Radio.name, Radio)
 Vue.component(RadioGroup.name, RadioGroup)
 Vue.component(RadioButton.name, RadioButton)
 Vue.component(Progress.name, Progress)
+Vue.component(Upload.name, Upload)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message

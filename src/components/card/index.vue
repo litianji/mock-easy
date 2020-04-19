@@ -77,17 +77,21 @@ export default {
           baseUrl: this.data.onlineUrl,
           onDownloadProgress: this.onDownloadProgress
         })
-
-        this.$store.dispatch('project/updateProject', {
-          ...this.data,
-          loaded: true
-        })
       } catch (error) {
         console.log(error)
       }
     },
     onDownloadProgress (e) {
-      this.progress = parseInt(e.loaded / e.total)
+      this.progress = parseInt(e.loaded / e.total) * 100
+      if(this.progress >= 100) {
+        setTimeout(() => {
+            this.$store.dispatch('project/updateProject', {
+            ...this.data,
+            loaded: true
+          })
+        }, 1000)
+      }
+      
     }
   },
   computed: {

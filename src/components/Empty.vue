@@ -4,7 +4,7 @@
       <img :src="empty" alt="">
     </div>
     <div class="me-empty__description">
-      一个项目也没有，从Eazy Mock<el-link type="primary" @click="downloadProject">导入项目</el-link>
+      <slot></slot>
     </div>
     <div class="me-empty__footer"></div>
   </div>
@@ -19,11 +19,6 @@ export default {
   data () {
     return {
       empty
-    }
-  },
-  methods: {
-    downloadProject () {
-      this.dispatch('App', 'DOWNLOAD_PROJECT')
     }
   }
 }

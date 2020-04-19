@@ -12,6 +12,11 @@
     justify-content: center;
   }
 
+  @include e(container) {
+    width: $--me-container-width;
+    margin: 0 auto;
+  }
+
   @include b(card) {
     position: relative;
     display: inline-block;
@@ -59,15 +64,21 @@
 }
 
 @include b(creater) {
-  background: #fff;
-  box-shadow: 0 2px 3px #eee;
-  border: 1px solid #eee;
-  border-radius: 4px;
+  padding-bottom: 20px;
 
-  @include e(content) {
-    width: 450px;
+  @include e(container) {
+    background: #fff;
+    width: $--me-container-width;
     margin: 0 auto;
-    padding-top: 40px;
-    padding-bottom: 30px;
+    box-shadow: 0 2px 3px #eee;
+    border: 1px solid #eee;
+    border-radius: 4px;
+
+    @include e(content) {
+      width: 450px;
+      margin: 0 auto;
+      padding-top: 40px;
+      padding-bottom: 30px;
+    }
   }
 }
