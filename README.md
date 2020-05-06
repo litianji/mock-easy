@@ -17,5 +17,5 @@
 
 # 加载到chrome
  - 打开chrome
- - 打开[扩展程序](chrome://extensions/)
+ - 打开扩展程序(chrome://extensions/)
  - 开启`开发者模式`，点击加载已解压的扩展程序，选择到项目目录下的chrome文件夹
