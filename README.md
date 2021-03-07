@@ -4,7 +4,6 @@
 
 可在本地创建一个mock服务，将Easy Mock以chrome应用形式迁移到本地
 
-
 <img src="./static/mock.gif"/>
 
 # 特性
@@ -21,6 +20,8 @@
 ```
 
 # 安装到chrome
- - 打开chrome
- - 打开扩展程序(chrome://extensions/)
+ - 下载[mock-easy.zip包](https://github.com/litianji/mock-easy/releases/tag/1.0.0)，并解压
+ - 打开chrome, [打开扩展程序(chrome://extensions/)](chrome://extensions/)
  - 开启`开发者模式`，点击加载已解压的扩展程序，选择到项目目录下的chrome文件夹
+
+<img src="./static/install.png"/>
