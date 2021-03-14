@@ -1,14 +1,17 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const WebpackBar = require('webpackbar')
+
+const root = path.resolve(__dirname, '../')
+
 module.exports = {
   entry: {
-    page: './src/main.js',
-    background: './service/main.js'
+    page: path.resolve(root, './src/main.js') ,
+    background: path.resolve(root, './service/main.js')
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, './chrome/js')
+    path: path.resolve(root, './chrome/js')
   },
   devtool: 'none',
   resolve: {
@@ -43,16 +46,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: process.env.NODE_ENV === 'production'
-          ? ExtractTextPlugin.extract({
-            use: 'css-loader?minimize&importLoaders=1!postcss-loader',
-            fallback: 'vue-style-loader'
-          })
-          : [
-            'vue-style-loader',
-            { loader: 'css-loader', options: { importLoaders: 1 } },
-            'postcss-loader'
-          ]
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'postcss-loader'
+        ]
       },
       {
         test: /\.scss$/,
@@ -66,6 +64,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
-  ]
+    new VueLoaderPlugin(),
+    new WebpackBar({
+      name: 'chrome extension',
+      color: '#0f9d58',
+    })
+  ],
+  performance: {
+    hints: 'warning',
+    maxEntrypointSize: 50000000,
+    maxAssetSize: 30000000
+  }
 }

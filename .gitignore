@@ -9,6 +9,8 @@ yarn-error.log*
 selenium-debug.log
 /public
 chrome/js
+chrome/hot
+.local
 # Editor directories and files
 .idea
 .vscode

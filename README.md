@@ -14,7 +14,7 @@
 # 启动
 ```bash
   # 安装依赖
-  npm run i
+  npm install
   # 本地环境启动
   npm run dev
 ```
